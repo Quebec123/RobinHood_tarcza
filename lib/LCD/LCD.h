@@ -8,7 +8,7 @@
 #include <Arduino.h>
 #include <LiquidCrystal_I2C.h>
 class LCD {
-LiquidCrystal_I2C LCD;
+LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27, 20, 4);
 bool mode=false; //false = time mode, true = points mode
 int highScore1=0;
 int highScore2=0;

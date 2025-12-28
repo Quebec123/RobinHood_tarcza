@@ -33,4 +33,13 @@ inline volatile bool IR_Pin2_2_BUFFER = 0;
 
 const int SERVO_PIN2_1 = 16; //Servo pins
 const int SERVO_PIN2_2 = 17;
+
+//----------------------------------------------------------//
+
+const int MODE_PIN = 2;
+const int START_PIN = 1;
+
+const int LCD_SDA = 8;
+const int LCD_SCL = 9;
+
 #endif //ROBINHOOD_PINS_H

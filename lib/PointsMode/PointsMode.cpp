@@ -4,11 +4,16 @@
 
 #include "PointsMode.h"
 
-PointsMode::PointsMode(IR irs[6], myServo servos[6], Stepper steppers[2], LCD lcd) : IRArray{irs[0], irs[1], irs[2], irs[3], irs[4], irs[5]},
-                                                                                      ServoArray{servos[0], servos[1], servos[2], servos[3], servos[4], servos[5]},
-                                                                                      stepperArray{steppers[0], steppers[1]},
-                                                                                      lcd(lcd),
-                                                                                      points(0) {
+PointsMode::PointsMode(IR (&irs)[6],
+                       myServo (&servos)[6],
+                       Stepper (&steppers)[2],
+                       LCD &lcd)
+        : IRArray(irs),               // Initialize references to arrays
+          ServoArray(servos),
+          StepperArray(steppers),
+          lcd(lcd),
+          points(0)                    // Initialize points
+{
 }
 int PointsMode::pickRandom() {
     int index = random(0, 6); //pick a random index from 0 to 5
@@ -24,9 +29,9 @@ void PointsMode::start() { //zaczynam grę
     while (millis() - startTime < gameDuration) { //gra trwa minutę
         current = pickRandom(); //wybieram losowy punkt
         if(current < 4){ //zatrzymuję banasia
-            stepperArray[0].toggle();
+            StepperArray[0].toggle();
         } else{
-            stepperArray[1].toggle();
+            StepperArray[1].toggle();
         }
         ServoArray[current].on(); //podnoszę cel
 
@@ -38,9 +43,9 @@ void PointsMode::start() { //zaczynam grę
         }
         ServoArray[current].off();//wyłączam cel
         if(current < 4){ //uruchamiam banasia
-            stepperArray[0].toggle();
+            StepperArray[0].toggle();
         } else{
-            stepperArray[1].toggle();
+            StepperArray[1].toggle();
         }
         lcd.updateCurrentScore(points); //aktualizacja wyniku
     }

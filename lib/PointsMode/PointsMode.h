@@ -12,16 +12,16 @@
 #include "IR.h"
 #include "LCD.h"
 class PointsMode {
-IR IRArray[6];
-myServo ServoArray[6];
+    IR (&IRArray)[6];             // Reference to an array of IR objects
+myServo (&ServoArray)[6];     // Reference to an array of myServo objects
+    Stepper (&StepperArray)[2];
 LCD lcd;
-Stepper stepperArray[2];
 int points;
-unsigned long startTime;
-unsigned long endTime;
+unsigned long startTime =0;
+unsigned long endTime =0;
 int pickRandom();
 public:
-    PointsMode(IR irs[6], myServo servos[6], Stepper steppers[2], LCD lcd);
+    PointsMode(IR (&irs)[6], myServo (&servos)[6], Stepper (&steppers)[2], LCD &lcd);
     void start();
 };
 

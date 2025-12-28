@@ -3,6 +3,10 @@
 #include "Stepper.h"
 #include "IR.h"
 #include "myServo.h"
+#include "LCD.h"
+#include "PointsMode.h"
+#include "Buttons.h"
+#include "LiquidCrystal_I2C.h"
 
 Stepper stepper_1(STEP_PIN_1, DIR_PIN_1); //class for Steppers
 Stepper stepper_2(STEP_PIN_2, DIR_PIN_2);
@@ -21,12 +25,18 @@ myServo servo_1_4(SERVO_PIN1_4);
 myServo servo_2_1(SERVO_PIN2_1);
 myServo servo_2_2(SERVO_PIN2_2);
 
+Buttons modeButton(MODE_PIN); //buttons
+Buttons startButton(START_PIN);
+
+LCD myLCD(); //LCD class wrapper
+
 myServo ServoArray[6] ={servo_1_1, servo_1_2, servo_1_3,servo_1_4,servo_2_1,servo_2_2}; //arrays for easier access
 
 IR IRArray[6] ={ir_1_1, ir_1_2, ir_1_3, ir_1_4,ir_2_1, ir_2_2};
 
 Stepper StepperArray[2] ={stepper_1, stepper_2};
 
+PointsMode pointsMode(IRArray,ServoArray,StepperArray,myLCD); //Points mode class
 void limitSwitch1ISR() { //ISR for limit switches
     stepper_1.changeDir();
 }
@@ -53,7 +63,6 @@ void IR_2_2_ISR() {
 }
 void setup() {
     Serial.begin(9600); //for debugging
-
     pinMode(LIMIT_1, INPUT_PULLUP); //limit switches
     pinMode(LIMIT_2, INPUT_PULLUP);
     pinMode(IR_PIN1_1, INPUT); //IR receivers
