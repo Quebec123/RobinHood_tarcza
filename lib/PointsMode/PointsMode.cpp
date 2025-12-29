@@ -4,17 +4,16 @@
 
 #include "PointsMode.h"
 
-PointsMode::PointsMode(IR (&irs)[6],
-                       myServo (&servos)[6],
-                       Stepper (&steppers)[2],
-                       LCD &lcd)
-        : IRArray(irs),               // Initialize references to arrays
-          ServoArray(servos),
-          StepperArray(steppers),
-          lcd(lcd),
-          points(0)                    // Initialize points
-{
+PointsMode::PointsMode(IR *IRARR[6], myServo *SERVOARR[6], Stepper *STEPPERARR[2],LCD *newlcd) : lcd(newlcd) {
+    for(int i=0;i<6;i++){
+        IRArray[i] = IRARR[i];
+        ServoArray[i] = SERVOARR[i];
+    }
+    for(int j=0;j<2;j++){
+        StepperArray[j] = STEPPERARR[j];
+    }
 }
+
 int PointsMode::pickRandom() {
     int index = random(0, 6); //pick a random index from 0 to 5
     return index;
@@ -23,32 +22,32 @@ int PointsMode::pickRandom() {
 void PointsMode::start() { //zaczynam grę
     points = 0; //ustawaim punkty
     int current=0; //inicjalizacja dla random punktów
-    lcd.start(); //zliczam w dół
+    lcd->start(); //zliczam w dół
     startTime = millis(); //pamiętam o której gra się zaczęła
     unsigned long gameDuration = 60000; //1 minute
     while (millis() - startTime < gameDuration) { //gra trwa minutę
         current = pickRandom(); //wybieram losowy punkt
         if(current < 4){ //zatrzymuję banasia
-            StepperArray[0].toggle();
+            StepperArray[0]->toggle();
         } else{
-            StepperArray[1].toggle();
+            StepperArray[1]->toggle();
         }
-        ServoArray[current].on(); //podnoszę cel
+        ServoArray[current]->on(); //podnoszę cel
 
-        while (!IRArray[current].read()) { //czekam na strzał
+        while (!IRArray[current]->read()) { //czekam na strzał
             if (millis() - startTime >= gameDuration) { //sprawdzam by nie przekroczył czasu
                 break; // gdy przekroczył wychodzę z pętli
             }
             points++; //dodaję punkty gdy trafi
         }
-        ServoArray[current].off();//wyłączam cel
+        ServoArray[current]->off();//wyłączam cel
         if(current < 4){ //uruchamiam banasia
-            StepperArray[0].toggle();
+            StepperArray[0]->toggle();
         } else{
-            StepperArray[1].toggle();
+            StepperArray[1]->toggle();
         }
-        lcd.updateCurrentScore(points); //aktualizacja wyniku
+        lcd->updateCurrentScore(points); //aktualizacja wyniku
     }
-    lcd.endScreen(); //koniec gry na ekranie
-    lcd.updateHighScore(points);//może mu się udało zbić high score
+    lcd->endScreen(); //koniec gry na ekranie
+    lcd->updateHighScore(points);//może mu się udało zbić high score
 }

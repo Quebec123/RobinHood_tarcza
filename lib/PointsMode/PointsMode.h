@@ -11,17 +11,18 @@
 #include "myServo.h"
 #include "IR.h"
 #include "LCD.h"
+#include "array"
 class PointsMode {
-    IR (&IRArray)[6];             // Reference to an array of IR objects
-myServo (&ServoArray)[6];     // Reference to an array of myServo objects
-    Stepper (&StepperArray)[2];
-LCD lcd;
+    IR* IRArray[6];
+    myServo* ServoArray[6];
+    LCD* lcd;
+    Stepper* StepperArray[2];
 int points;
 unsigned long startTime =0;
 unsigned long endTime =0;
 int pickRandom();
 public:
-    PointsMode(IR (&irs)[6], myServo (&servos)[6], Stepper (&steppers)[2], LCD &lcd);
+    PointsMode(IR *IRARR[6], myServo *SERVOARR[6], Stepper *STEPPERARR[2],LCD *newlcd);
     void start();
 };
 

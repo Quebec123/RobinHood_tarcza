@@ -36,7 +36,10 @@ IR IRArray[6] ={ir_1_1, ir_1_2, ir_1_3, ir_1_4,ir_2_1, ir_2_2};
 
 Stepper StepperArray[2] ={stepper_1, stepper_2};
 
-PointsMode pointsMode(IRArray,ServoArray,StepperArray,myLCD); //Points mode class
+PointsMode pointsMode(IRArray, ServoArray, StepperArray, myLCD);
+
+
+
 void limitSwitch1ISR() { //ISR for limit switches
     stepper_1.changeDir();
 }
