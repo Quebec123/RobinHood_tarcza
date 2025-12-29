@@ -7,7 +7,7 @@
 #include "PointsMode.h"
 #include "Buttons.h"
 #include "LiquidCrystal_I2C.h"
-
+#include <vector>
 Stepper stepper_1(STEP_PIN_1, DIR_PIN_1); //class for Steppers
 Stepper stepper_2(STEP_PIN_2, DIR_PIN_2);
 
@@ -28,15 +28,14 @@ myServo servo_2_2(SERVO_PIN2_2);
 Buttons modeButton(MODE_PIN); //buttons
 Buttons startButton(START_PIN);
 
-LCD myLCD(); //LCD class wrapper
+LCD myLCD; //LCD class wrapper
 
-myServo ServoArray[6] ={servo_1_1, servo_1_2, servo_1_3,servo_1_4,servo_2_1,servo_2_2}; //arrays for easier access
+myServo ServoArray[6] = {servo_1_1, servo_1_2, servo_1_3, servo_1_4, servo_2_1, servo_2_2}; // Normal array for servos
+IR IRArray[6] = {ir_1_1, ir_1_2, ir_1_3, ir_1_4, ir_2_1, ir_2_2}; // Normal array for IR receivers
+Stepper StepperArray[2] = {stepper_1, stepper_2}; // Normal array for steppers
 
-IR IRArray[6] ={ir_1_1, ir_1_2, ir_1_3, ir_1_4,ir_2_1, ir_2_2};
 
-Stepper StepperArray[2] ={stepper_1, stepper_2};
-
-PointsMode pointsMode(IRArray, ServoArray, StepperArray, myLCD);
+PointsMode pointsMode(IRArray, ServoArray, StepperArray, myLCD); //Points mode class
 
 
 
